@@ -81,8 +81,7 @@ class _PostsIndex extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     bool _showAppbar = context.select((MainModel model) => model.showAppbar);
-    ScrollController scrollViewController = new ScrollController();
-    context.read<MainModel>().isScroll(scrollViewController);
+    context.read<MainModel>().isScroll();
 
     // TODO: implement build
     return AnimatedContainer(
@@ -102,7 +101,7 @@ class _PostsIndex extends StatelessWidget{
                 height: _showAppbar?65:0,
                 duration: Duration(milliseconds: 200),
               ),
-              Expanded(child: _Posts(scrollViewController))
+              Expanded(child: _Posts())
             ],
           )
         ])
@@ -156,8 +155,6 @@ class _PostsIndexHeader extends StatelessWidget{
 }
 
 class _Posts extends StatelessWidget{
-  ScrollController scrollViewController;
-  _Posts(this.scrollViewController):super();
 
   List _postsData = [
     {
@@ -224,6 +221,7 @@ class _Posts extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    ScrollController scrollViewController = context.select((MainModel model) => model.scrollViewController);
     // TODO: implement build
     //繰り返し処理で表示
     return ListView.builder(

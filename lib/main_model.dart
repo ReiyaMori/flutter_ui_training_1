@@ -9,11 +9,12 @@ class MainModel with ChangeNotifier {
     notifyListeners();
   }
 
+  ScrollController scrollViewController = new ScrollController();
 
   bool showAppbar = true;
   bool isScrollingDown = false;
 
-  void isScroll(scrollViewController){
+  void isScroll(){
     scrollViewController.addListener(() {
       if (scrollViewController.position.userScrollDirection == ScrollDirection.reverse) {
         if (!isScrollingDown) {
