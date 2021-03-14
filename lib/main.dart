@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:ui_training_1/main_model.dart';
 
@@ -79,16 +80,32 @@ class _SideNavigation extends StatelessWidget{
 class _PostsIndex extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
+    bool _showAppbar = context.select((MainModel model) => model.showAppbar);
+    ScrollController scrollViewController = new ScrollController();
+    context.read<MainModel>().isScroll(scrollViewController);
+
     // TODO: implement build
-    return Container(
-      padding: EdgeInsets.only(top:48),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
+    return AnimatedContainer(
+      duration: Duration(milliseconds:200 ),
+      padding: _showAppbar?EdgeInsets.only(top:48):EdgeInsets.only(top:0),
+      child: Stack(
         children: <Widget>[
-          _PostsIndexHeader(),
-          Expanded(child: _Posts())
-        ],
-      ),
+          AnimatedOpacity(
+            opacity: _showAppbar?1.0:0.0,
+            duration: Duration(milliseconds: 800),
+            child: _PostsIndexHeader(),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              AnimatedContainer(
+                height: _showAppbar?65:0,
+                duration: Duration(milliseconds: 200),
+              ),
+              Expanded(child: _Posts(scrollViewController))
+            ],
+          )
+        ])
     );
   }
 }
@@ -98,45 +115,50 @@ class _PostsIndexHeader extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Row(
-      children: <Widget>[
-        Expanded(
-            flex: 1,
-            //リストタイルで整形
-            child: ListTile(
-              leading: ClipOval(
-                child: Container(
-                    color: Colors.grey[300],
-                    width: 48, height: 48,
-                    child: Icon(Icons.storage, color: Colors.grey[800],)
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Expanded(
+              flex: 1,
+              //リストタイルで整形
+              child: ListTile(
+                leading: ClipOval(
+                  child: Container(
+                      color: Colors.grey[300],
+                      width: 48, height: 48,
+                      child: Icon(Icons.storage, color: Colors.grey[800],)
+                  ),
                 ),
-              ),
-              title: Text('Posts'),
-              subtitle: Text('20 Posts' ),
-              onTap: (){},
-            )
-        ),
-        Expanded(
-            flex: 1,
-            child: ListTile(
-              leading: ClipOval(
-                child: Container(
-                    color: Colors.grey[300],
-                    width: 48, height: 48,
-                    child: Icon(Icons.style, color: Colors.grey[800],)
+                title: Text('Posts'),
+                subtitle: Text('20 Posts' ),
+                onTap: (){},
+              )
+          ),
+          Expanded(
+              flex: 1,
+              child: ListTile(
+                leading: ClipOval(
+                  child: Container(
+                      color: Colors.grey[300],
+                      width: 48, height: 48,
+                      child: Icon(Icons.style, color: Colors.grey[800],)
+                  ),
                 ),
-              ),
-              title: Text('All types', ),
-              subtitle: Text(''),
-              onTap: (){},
-            )
-        )
-      ],
+                title: Text('All types', ),
+                subtitle: Text(''),
+                onTap: (){},
+              )
+          )
+        ],
+      ),
     );
   }
 }
 
 class _Posts extends StatelessWidget{
+  ScrollController scrollViewController;
+  _Posts(this.scrollViewController):super();
+
   List _postsData = [
     {
       'name': 'Pean',
@@ -205,6 +227,7 @@ class _Posts extends StatelessWidget{
     // TODO: implement build
     //繰り返し処理で表示
     return ListView.builder(
+      controller: scrollViewController,
       itemCount: _postsData.length,
       itemBuilder: (context,index){
         return _PostCard(
