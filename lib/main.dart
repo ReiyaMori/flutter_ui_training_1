@@ -21,7 +21,10 @@ class MyApp extends StatelessWidget{
   }
 }
 
+//メインページ
 class AdminMobilePage extends StatelessWidget{
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -32,7 +35,13 @@ class AdminMobilePage extends StatelessWidget{
         body: Row(
           children: <Widget>[
             _SideNavigation(),
-            Expanded(child: _PostsIndex())
+            Builder(
+                builder: (context){
+                  final List<Widget> _page = [_PostsIndex(),_People(),_MyPage(),_BookMark()];
+                  final _selectedIndex = context.select((MainModel model) => model.selectedIndex);
+                  return Expanded(child: _page[_selectedIndex]);
+                }
+            )
           ],
         ),
       ),
@@ -40,6 +49,7 @@ class AdminMobilePage extends StatelessWidget{
   }
 }
 
+//サイドナビゲーション
 class _SideNavigation extends StatelessWidget{
 
   @override
@@ -65,6 +75,7 @@ class _SideNavigation extends StatelessWidget{
   }
 }
 
+//Post一覧
 class _PostsIndex extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -317,4 +328,30 @@ class _PostCard extends StatelessWidget{
     );
   }
 }
+
+class _People extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Center(child: Text('People'),);
+  }
+}
+
+class _MyPage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Center(child: Text('MyPage'),);
+  }
+}
+
+class _BookMark extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Center(child: Text('BookMark'),);
+  }
+}
+
+
 
