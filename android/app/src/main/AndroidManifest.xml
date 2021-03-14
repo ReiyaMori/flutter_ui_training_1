@@ -2,7 +2,7 @@
     package="inc.watage.ui_training_1">
    <application
         android:label="ui_training_1"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

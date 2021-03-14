@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget{
       title: 'ui training 1',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
-      home: ,
+      home: AdminMobilePage(),
     );
   }
 }
@@ -27,9 +27,27 @@ class AdminMobilePage extends StatelessWidget{
       //SideBarとBodyの分離
       body: Row(
         children: <Widget>[
-
+          Expanded(flex:1, child: SideNavigation()),
+          Expanded(flex:5 ,child: PostsIndex())
         ],
       ),
     );
+  }
+}
+
+class SideNavigation extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container();
+
+  }
+}
+
+class PostsIndex extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Container(color: Colors.grey,);
   }
 }
