@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: 'ui training 1',
+      title: 'Ad Mob',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       home: AdminMobilePage(),
@@ -82,6 +82,7 @@ class _PostsIndex extends StatelessWidget{
   Widget build(BuildContext context) {
     bool _showAppbar = context.select((MainModel model) => model.showAppbar);
     context.read<MainModel>().isScroll();
+    context.read<MainModel>().model_dispose();
 
     // TODO: implement build
     return AnimatedContainer(
@@ -95,6 +96,7 @@ class _PostsIndex extends StatelessWidget{
             child: _PostsIndexHeader(),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               AnimatedContainer(

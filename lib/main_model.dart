@@ -34,4 +34,14 @@ class MainModel with ChangeNotifier {
     });
   }
 
+  void model_dispose(){
+
+    @override
+    void dispose() {
+      scrollViewController.dispose();
+      scrollViewController.removeListener(() {});
+      super.dispose();
+    }
+  }
+
 }
