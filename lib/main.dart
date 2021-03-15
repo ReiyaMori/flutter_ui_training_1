@@ -82,7 +82,6 @@ class _PostsIndex extends StatelessWidget{
   Widget build(BuildContext context) {
     bool _showAppbar = context.select((MainModel model) => model.showAppbar);
     context.read<MainModel>().isScroll();
-    context.read<MainModel>().model_dispose();
 
     // TODO: implement build
     return AnimatedContainer(
@@ -156,91 +155,32 @@ class _PostsIndexHeader extends StatelessWidget{
   }
 }
 
+//Posts一覧のBody
 class _Posts extends StatelessWidget{
-
-  List _postsData = [
-    {
-      'name': 'Pean',
-      'message':'Weak reason. No action required.',
-      'textReason':'Report Details',
-      'colorPrimary':Colors.greenAccent,
-      'colorPositive':Colors.greenAccent,
-      'textPositive':'Keep',
-      'colorNegative': Colors.blueAccent,
-      'textNegative': 'Archive',
-    },
-    {
-      'name': 'Namaga Tema',
-      'message': 'Not recomended for publication.',
-      'textReason': 'Pending Reason',
-      'colorPrimary': Colors.deepOrangeAccent,
-      'colorPositive': Colors.blueAccent,
-      'textPositive': 'Publish',
-      'colorNegative': Colors.deepOrangeAccent,
-      'textNegative': 'Decline',
-    },
-    {
-      'name': 'Pean',
-      'message':'Weak reason. No action required.',
-      'textReason':'Report Details',
-      'colorPrimary':Colors.greenAccent,
-      'colorPositive':Colors.greenAccent,
-      'textPositive':'Keep',
-      'colorNegative': Colors.blueAccent,
-      'textNegative': 'Archive',
-    },
-    {
-      'name': 'Namaga Tema',
-      'message': 'Not recomended for publication.',
-      'textReason': 'Pending Reason',
-      'colorPrimary': Colors.deepOrangeAccent,
-      'colorPositive': Colors.blueAccent,
-      'textPositive': 'Publish',
-      'colorNegative': Colors.deepOrangeAccent,
-      'textNegative': 'Decline',
-    },
-    {
-      'name': 'Pean',
-      'message':'Weak reason. No action required.',
-      'textReason':'Report Details',
-      'colorPrimary':Colors.greenAccent,
-      'colorPositive':Colors.greenAccent,
-      'textPositive':'Keep',
-      'colorNegative': Colors.blueAccent,
-      'textNegative': 'Archive',
-    },
-    {
-      'name': 'Namaga Tema',
-      'message': 'Not recomended for publication.',
-      'textReason': 'Pending Reason',
-      'colorPrimary': Colors.deepOrangeAccent,
-      'colorPositive': Colors.blueAccent,
-      'textPositive': 'Publish',
-      'colorNegative': Colors.deepOrangeAccent,
-      'textNegative': 'Decline',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List _postsData = context.select((MainModel model)=> model.postsData);
     ScrollController scrollViewController = context.select((MainModel model) => model.scrollViewController);
     // TODO: implement build
     //繰り返し処理で表示
-    return ListView.builder(
-      controller: scrollViewController,
-      itemCount: _postsData.length,
-      itemBuilder: (context,index){
-        return _PostCard(
-            name: _postsData[index]['name'],
-            message: _postsData[index]['message'],
-            textReason: _postsData[index]['textReason'],
-            colorPrimary: _postsData[index]['colorPrimary'],
-            colorPositive: _postsData[index]['colorPositive'],
-            textPositive: _postsData[index]['textPositive'],
-            colorNegative: _postsData[index]['colorNegative'],
-            textNegative: _postsData[index]['textNegative']
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: ()=>context.read<MainModel>().refreshList(),
+      child: ListView.builder(
+        controller: scrollViewController,
+        itemCount: _postsData.length,
+        itemBuilder: (context,index){
+          return _PostCard(
+              name: _postsData[index]['name'],
+              message: _postsData[index]['message'],
+              textReason: _postsData[index]['textReason'],
+              colorPrimary: _postsData[index]['colorPrimary'],
+              colorPositive: _postsData[index]['colorPositive'],
+              textPositive: _postsData[index]['textPositive'],
+              colorNegative: _postsData[index]['colorNegative'],
+              textNegative: _postsData[index]['textNegative']
+          );
+        },
+      ),
     );
   }
 }
